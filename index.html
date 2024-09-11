@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer and Cropper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+/* Base styles remain the same */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    width: 955px;
+    height: 498px;
+    position: relative;
+}
+
+.upload-box {
+    position: absolute;
+    margin-left: -732px;
+    margin-top: 22px;
+    width: 476px;
+    height: 466px;
+    border: 2px dashed #6c5dd3;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    margin-right: 33px;
+    background-color: #fbf9f9;
+}
+
+.radio-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .radio-button {
+            display: inline-flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            padding: 9px 64px;
+            border-radius: 5px;
+            background-color: #000000;
+            /* border: 2px solid #000000; */
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+       
+
+        .radio-button input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+      
+
+
+        .radio-button span {
+            display: inline-block;
+            padding: 5px;
+        }
+#lblhhh{
+    margin-left: 4px;
+}
+
+.upload-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.upload-box label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.content {
+    margin-top: 10px;
+    text-align: center;
+    margin-left: 72px;
+    line-height: 44px;
+    width: 322px;
+    z-index: 6;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.column {
+    flex: 1;
+}
+
+input[type="number"] {
+    width: 100px;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+#downloadButton {
+    display: none;
+    text-decoration: none;
+    padding: 10px 13px;
+    text-align: center;
+    margin-left: 795px;
+    border-radius: 5px;
+    background-color: #000000;
+    color: white;
+    margin-top: -5px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#downloadButton:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+#previewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+.button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #007BFF;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+.preview-item {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 274px;
+    margin-left: -222px;
+}
+
+.preview-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+#portraitButton {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.image-button {
+    display: inline-flex;
+    align-items: center;
+    background-image: url('./portButton.png');
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    position: fixed;
+    font-size: 16px;
+}
+
+.image-button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.image-button:hover {
+    background-color: #35424a;
+    color: #ffffff;
+}
+
+#portraitButton:hover {
+    background-color: #555;
+}
+
+/* Styles for background color options */
+#bgColorSelect {
+    margin-top: 5px;
+}
+
+#fitFillSelect {
+    margin-top: 5px;
+}
+
+.preview-item .remove-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #9894a3;
+    color: white;
+    border: none;
+    padding: 6px 6px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.btn-37,
+        .btn-37 *,
+        .btn-37 :after,
+        .btn-37 :before,
+        .btn-37:after,
+        .btn-37:before {
+            border: 0.5px solid black;
+            box-sizing: border-box;
+            border-radius: 44px;
+        }
+
+        .btn-37 {
+            -webkit-tap-highlight-color:
+                transparent;
+            -webkit-appearance: button;
+            background-color:
+                #000;
+            background-image: none;
+            color:
+                #fff;
+            cursor: pointer;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+                Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+                Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+            font-size: 100%;
+            font-weight: 900;
+            line-height: 1.5;
+            margin: 0;
+            margin-top: -8px;
+            -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+            padding: 0;
+        }
+
+        .btn-37:disabled {
+            cursor: default;
+        }
+
+        .btn-37:-moz-focusring {
+            outline: auto;
+        }
+
+        .btn-37 svg {
+            display: block;
+            vertical-align: middle;
+        }
+
+        .btn-37 [hidden] {
+            display: none;
+        }
+
+        .btn-37 {
+            border: 1px solid;
+            box-sizing: border-box;
+            display: block;
+            overflow: hidden;
+            padding: 0.5rem 2rem;
+            position: relative;
+            text-transform: uppercase;
+            margin-left: 84px;
+
+        }
+
+#resultContainer {
+    margin-top: -82px;
+    text-align: center;
+    margin-left: 233px;
+    width: 480px;
+}
+
+#resultImage {
+    height: 49vh;
+    width: 153px;
+    margin-left: 353px;
+    margin-top: -219px;
+    object-fit: contain;
+}
+.wrap-input-8 .input {
+  width: 100%;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  background-color: 
+#f5f6fd;
+  border: 1px solid 
+#ccc; 
+  padding: 7px 14px 9px; 
+  transition: 0.4s;
+}
+
+.wrap-input-8 .input:focus {
+  outline: none;
+}
+
+.wrap-input-8 {
+  width: 10%;
+  margin: 40px 3%;
+  position: relative;
+}
+
+.wrap-input-8 .input ~ .focus-border:before,
+.wrap-input-8 .input ~ .focus-border:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: 
+#6c5dd3;
+  transition: 0.3s;
+}
+.wrap-input-8 .input ~ .focus-border:after {
+  top: auto;
+  bottom: 0;
+  left: auto;
+  right: 0;
+}
+.wrap-input-8 .input ~ .focus-border i:before,
+.wrap-input-8 .input ~ .focus-border i:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 0;
+  background-color: 
+#6c5dd3;
+  transition: 0.4s;
+}
+.wrap-input-8 .input ~ .focus-border i:after {
+  left: auto;
+  right: 0;
+  top: auto;
+  bottom: 0;
+}
+.wrap-input-8 .input:focus ~ .focus-border:before,
+.wrap-input-8 .input:focus ~ .focus-border:after {
+  width: 100%;
+  transition: 0.3s;
+}
+.wrap-input-8 .input:focus ~ .focus-border i:before,
+.wrap-input-8 .input:focus ~ .focus-border i:after {
+  height: 100%;
+  transition: 0.4s;
+}
+.button {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            color: #333;
+            background-color: #e8ebf0;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            width: 200px;
+        }
+
+        .button i {
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #dcdfe3;
+        }
+
+        .fit-btn {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .fit-btn:hover {
+            background-color: #333;
+        }
+
+        .fill-btn {
+            background-color: #f7f8fa;
+        }
+
+        .fill-btn:hover {
+            background-color: #e0e4e8;
+        }
+
+/* Media Queries for Responsiveness */
+
+@media (max-width: 1200px) {
+    .wrapper {
+        width: 90%;
+        height: auto;
+    }
+
+    .upload-box {
+        width: 300px;
+        height: 300px;
+        margin-left: 1px;
+        margin-top: 39px;
+    }
+
+    .controls {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    #downloadButton {
+        margin-left: 0;
+    }
+
+    .preview-item {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .upload-box {
+        width: 100%;
+        height: auto;
+        margin-left: 0;
+    }
+
+    .controls {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    #resultContainer {
+        margin-left: 0;
+    }
+
+    #resultImage {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .image-button {
+        font-size: 14px;
+    }
+
+    button {
+        padding: 8px 16px;
+    }
+
+    input[type="number"] {
+        width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    body{
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+    .wrapper {
+        padding: 9px;
+        margin-left: -14px;
+        /* overflow: hidden; */
+        margin-top: 165px;
+    }
+    .resteBt{
+        margin-left: 85%;
+        margin-top: -239px;
+        width: 222px;
+        position: absolute;
+    }
+
+    #uploadSection{
+        margin-left: 40.6%;
+        padding: 25px;
+    }
+    #MainContentss{
+
+    }
+.column{
+    margin-top: 33px;
+}
+    .upload-box { 
+        width: 97%;
+        height: 18vh;
+        margin-left: 36%;
+        margin-top: 33px;
+    }
+
+    .controls {
+        width: 100%;
+        
+        margin-top: 336px;
+    }
+
+    .content {
+        width: 100%;
+    }
+.size-button{
+    margin-left: -117px;
+}
+    #downloadButton {
+        margin-left: 0;
+    }
+
+    .preview-item {
+        width: 100px;
+        height: 100px;
+        margin-top: 10px;
+        margin-left: 0;
+    }
+
+    #resultImage {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .image-button {
+        font-size: 12px;
+        /* margin-left: -44px; */
+    }
+    #portraitButton{
+        margin-left: -71px;
+    }
+.portimg{
+    margin-left: -233px;
+}
+#landscapeButton{
+    margin-left:2px;
+}
+#fullHDButton{
+    margin-left: 62px;
+
+    /* width: 33px; */
+
+}
+ button {
+        padding: 6px 12px;
+        margin-left: -14px;
+        /* height: 12vh; */
+    }
+    button img{
+        width: 142px;
+        /* height: 9vh; */
+    }
+#fullHDButton{
+    padding: 10px;
+    /* margin-top: 12px; */
+    margin-left: 52px;
+    position: absolute;
+}
+
+.storB{
+    margin-top: -33px;
+    margin-left: 12px;
+
+    
+}
+.bgcoloee{
+    margin-left: -94px;
+    /* position: inherit; */
+}
+.whiB{
+width: 37px;
+}
+#or{
+    /* margin-left: -166px; */
+    /* position: absolute; */
+   
+}
+.widtCol{
+    margin-top: 33px;
+    position: absolute;
+    /* marL */
+}
+.layoutH{
+    margin-left: -95px;
+}
+#downloadBtn{
+    margin-left: -43px;
+    
+}
+.customH{
+    margin-left: -92px;
+}
+.blaB{
+width: 37px;
+}
+.layportion{
+    margin-left: -90px;
+}
+
+.lblW{
+    margin-left: -49px;
+}
+.bgColH{
+    margin-left: -90px;
+
+}
+.orClas{
+    margin-left: -47px;
+    
+    /* margin-top: 33px; */
+}
+
+
+label{
+    margin-top: 22px;
+}
+    input[type="number"] {
+        width: 60px;
+        margin-left: -55px;
+        margin-top: 22px;
+    }
+    #lblhhh{
+        margin-left: -54px;
+        /* display: inline-block; */
+        margin-top: -25px;
+        position: absolute;
+    }
+    #portraitbuttons{
+        margin-left: -98px;
+    }
+    #downloadBtn{
+        margin-left: -93px;
+        margin-top: 33px;
+       
+
+    }
+    #uploadSection{
+        margin-left: 32%;
+    }
+    .px{
+        margin-left: 9px;
+        position: absolute;
+    }
+    .pxx{
+        margin-left: 83px;
+        position: absolute;
+    }
+}
+
+.lblH{
+    margin-top: -18px;
+    position: absolute;
+    margin-left: -12px;
+}
+.btn-81,
+.btn-81 *,
+.btn-81 :after,
+.btn-81 :before,
+.btn-81:after,
+.btn-81:before {
+  border: 0 solid;
+  box-sizing: border-box;
+  background-color: #000;
+  
+}
+.btn-81 {
+  -webkit-tap-highlight-color: 
+transparent;
+  -webkit-appearance: button;
+  background-color: 
+#000;
+  background-image: none;
+  color: 
+#fff;
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 100%;
+  font-weight: 900;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  padding: 0;
+}
+.btn-81:disabled {
+  cursor: default;
+}
+.btn-81:-moz-focusring {
+  outline: auto;
+}
+.btn-81 svg {
+  display: block;
+  vertical-align: middle;
+}
+.btn-81 [hidden] {
+  display: none;
+}
+.btn-81 {
+  border: 2px solid;
+  border-radius: 999px;
+  box-sizing: border-box;
+  display: block;
+  overflow: hidden;
+  padding: 1.2rem 3rem;
+  position: relative;
+  text-transform: uppercase;
+  position: absolute;
+  margin-top: 463px;   
+margin-left: -74%;
+}
+.btn-81 span {
+  font-weight: 900;
+  mix-blend-mode: difference;
+}
+.btn-81:before {
+  background: 
+#fff;
+  bottom: 0;
+  color: #000;
+  
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+.btn-81:hover:before {
+  -webkit-animation: progress-bar 1.2s;
+  animation: progress-bar 1.2s;
+}
+@-webkit-keyframes progress-bar {
+  0% {
+    height: 0%;
+    opacity: 1;
+  }
+  10% {
+    height: 15%;
+    opacity: 1;
+  }
+  25% {
+    height: 25%;
+    opacity: 1;
+  }
+  40% {
+    height: 35%;
+    opacity: 1;
+  }
+  55% {
+    height: 75%;
+    opacity: 1;
+  }
+  60% {
+    height: 100%;
+    opacity: 1;
+  }
+  to {
+    height: 100%;
+    opacity: 0;
+  }
+}
+@keyframes progress-bar {
+  0% {
+    height: 0%;
+    opacity: 1;
+  }
+  10% {
+    height: 15%;
+    opacity: 1;
+  }
+  25% {
+    height: 25%;
+    opacity: 1;
+  }
+  40% {
+    height: 35%;
+    opacity: 1;
+  }
+  55% {
+    height: 75%;
+    opacity: 1;
+  }
+  60% {
+    height: 100%;
+    opacity: 1;
+  }
+  to {
+    height: 100%;
+    opacity: 0;
+  }
+}
+.wrapper{
+    margin-left: 67px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="upload-box" id="uploadSection">
+            <input type="file" id="uploadInput" accept="image/*" style="display: none;">
+            <img id="uploadedImage" alt="Upload Image" style="display: none;">
+           <div id="uploadText">
+            <span><img height="45vh" style="margin-left: 133px;" width="45vh" src="https://cdn-icons-png.flaticon.com/128/1092/1092216.png" alt=""></span>
+            <p style="color: #606060;"><b>Click to upload </b> or drag and drop an image<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(PNG, JPG, JPEG, HEIC)</p>
+        </div>
+           <!-- Reset Button -->
+
+           
+    </div>
+    <div class="resteBt">
+    <button id="resetImge" onclick="location.reload()"  style="margin-top: 515px; padding: 12px 29px; margin-left: -47%; position:absolute;" class="btn-15"><span>Reset Image</span></button>
+</div>
+<style>
+.btn-15,
+.btn-15 *,
+.btn-15 :after,
+.btn-15 :before,
+.btn-15:after,
+.btn-15:before {
+  border: 0 solid;
+  box-sizing: border-box;
+}
+.btn-15 {
+  -webkit-tap-highlight-color: 
+transparent;
+  -webkit-appearance: button;
+  background-color: 
+#000;
+  background-image: none;
+  border: 0.7px solid black;
+  color: 
+#fff;
+  cursor: pointer;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-size: 100%;
+  font-weight: 900;
+  line-height: 1.5;
+  margin: 0;
+  -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+  padding: 0;
+  text-transform: uppercase;
+}
+.btn-15:disabled {
+  cursor: default;
+}
+.btn-15:-moz-focusring {
+  outline: auto;
+}
+.btn-15 svg {
+  display: block;
+  vertical-align: middle;
+}
+.btn-15 [hidden] {
+  display: none;
+}
+.btn-15 {
+  border-radius: 99rem;
+  border-width: 2px;
+  overflow: hidden;
+  padding: 0.8rem 3rem;
+  position: relative;
+  z-index: 0;
+}
+.btn-15 span {
+  mix-blend-mode: difference;
+}
+.btn-15:after,
+.btn-15:before {
+  --skew: 0.2;
+  background: 
+#fff;
+  content: "";
+  display: block;
+  height: 102%;
+  left: calc(-50% - 50% * var(--skew));
+  pointer-events: none;
+  position: absolute;
+  top: -104%;
+  transform: skew(calc(150deg * var(--skew))) translateY(var(--progress, 0));
+  transition: transform 0.2s ease;
+  width: 100%;
+}
+.btn-15:after {
+  --progress: 0%;
+  left: calc(50% + 50% * var(--skew));
+  top: 102%;
+  z-index: -1;
+}
+.btn-15:hover:before {
+  --progress: 100%;
+}
+.btn-15:hover:after {
+  --progress: -102%;
+}
+</style>
+   
+        <div style="margin-left: 292px;" id="" class="controls">
+            <h3 style="font-size: 20px;" class="customH">Custom Resize</h3>
+            
+            <div id="widtCol" style="margin-top: 86px;" class="column width">
+                <label style="margin-top: -46px; margin-left: 12px;  font-size: 17.4px; position: absolute;" class="lblW"><b>Width:</b> <br></label>
+                <!-- <input style="padding: 7px 8px;" type="number" id="widthInput" placeholder="0" min="0"> px -->
+                <div style="width: 33%;" class="wrap-input-8">
+                    <input style="padding: 8px 23px; margin-top: -1px;" class="input"type="number" id="widthInput" placeholder="0"><span  class="px" style="float: right; margin-top: 1px; font-size: 19.6px; margin-right: -27px;">px</span>
+                      <span class="focus-border">
+                        <i></i>
+                      </span>
+                  </div>
+            </div>
+            <div style="margin-left: 204px; margin-top: -73px;" class="column height">
+                <label  style="margin-top: -47px; font-size: 17.4px; margin-left: 4px;" id="lblhhh" class="lblH"><b>Height:</b> <br></label>
+                <!-- <input style="margin-top: 12px;" class="inH"  placeholder="0" min="0"> px -->
+                <div style="width: 58%; margin-top: 4px;" class="wrap-input-8"><span class="pxx" style="float: right; margin-top: 1px; font-size: 19.6px; margin-right: -27px;">px</span>
+                    <input style="padding: 8px 23px; margin-top: -1px;" type="number" id="heightInput" class="input"type="number" id="widthInput" placeholder="0">
+                      <span class="focus-border">
+                        <i></i>
+                      </span>
+                  </div>
+            </div>
+            
+            <div style="margin-top: -13px;">
+            <b id="or" style="margin-left: 172px;margin-top: -12px;"><span class="orClas">(or)</span></b>
+        </div>
+            <!-- <div class="portimg" style="margin-left: -8px; margin-top: 22px;">
+                <button style="width: 118px; height: 10.5vh; background-color: transparent;" class="size-button" data-width="640" data-height="480" id="portraitButton"><img style="height: 10vh; margin-left: -17px; margin-top: -7px; border-radius: 5px;" src="https://imageresizeronline.netlify.app/portButton.png" alt="Button Image"></button>
+                <button style="width: 118px; height: 10.5vh; background-color: transparent;" class="size-button" data-width="1280" data-height="720" id="landscapeButton"><img style="height: 10vh; margin-left: 24px; margin-top: -7px; border-radius: 5px;" src="https://imageresizeronline.netlify.app/landscape%20utton.png" alt="Button Image"></button>
+                <button style="width: 143px; margin-left: 88px; height: 10.5vh; background-color: #dce0f3;" class="size-button" data-width="1920" data-height="1080" id="fullHDButton"></button>
+            </div> -->
+        
+          
+              <!-- border-color:rgb(102, 89, 234); -->
+              <!-- border: 2px solid rgb(102, 89, 234) !important; -->
+           <br><br>
+              <div id="portraitbuttons" class="portsBtn" style="gap:8px;flex-wrap:wrap; width: 444px;display:flex;box-sizing:border-box;">
+            </button> <button data-width="640" data-height="480" class="size-button" id="portraitButton" style="outline:rgb(85, 70, 232) none 0px;background-color:rgb(220, 224, 243);border-color:rgba(0, 0, 0, 0);box-shadow:rgba(27, 22, 66, 0.03) 0px 0px 6px 0px, rgba(27, 22, 66, 0.06) 0px 14px 24px 0px;color:rgb(85, 70, 232);border-radius:8px;text-transform:capitalize;font-size:14px;padding:8px;border:0.666667px solid rgba(0, 0, 0, 0);cursor:pointer;display:block;font-weight:500;line-height:22.4px;text-align:center;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;user-select:none;vertical-align:middle;white-space:nowrap;appearance:button;font-family:'DM Sans', sans-serif;margin:0px;box-sizing:border-box;flex:1 0 0%;position:relative; padding: 12px 38px;" fdprocessedid="efyeq5"><span style="width: 30px; height: 30px; border: 1px solid rgba(85, 70, 232, 0.3);height:30px;border:0.666667px solid rgba(85, 70, 232, 0.3);margin-bottom:4px;margin-left: auto !important;margin-right: auto !important;display:block;box-sizing:border-box; "></span>  <small style="color:rgb(155, 158, 190);display:block;font-size:11px;box-sizing:border-box;background-color:rgb(225, 229, 245);border-radius:3px;font-weight:100;left:62.5312px;line-height:13px;padding:1px;position:absolute;top:17px;transform:matrix(1, 0, 0, 1, -8.8125, 0); margin-left:6px; margin-top: 2.9px;"> 4:5 </small>
+                portrait
+            </button><button data-width="1280" data-height="720" class="size-button" id="landscapeButton" fdprocessedid="85azo" style="outline:rgb(85, 70, 232) none 0px;background-color:rgb(220, 224, 243);border-color:rgba(0, 0, 0, 0);box-shadow:rgba(27, 22, 66, 0.03) 0px 0px 6px 0px, rgba(27, 22, 66, 0.06) 0px 14px 24px 0px;color:rgb(85, 70, 232);border-radius:8px;text-transform:capitalize;font-size:14px;padding:8px;border:0.666667px solid rgba(0, 0, 0, 0);cursor:pointer;display:block;font-weight:500;line-height:22.4px;text-align:center;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;user-select:none;vertical-align:middle;white-space:nowrap;appearance:button;font-family:'DM Sans', sans-serif;margin:0px;box-sizing:border-box;flex:1 0 0%;position:relative;  padding: 12px 38px;" ><span style="width: 57.3px; height: 30px; border: 1px solid rgba(85, 70, 232, 0.3);height:30px;border:0.666667px solid rgba(85, 70, 232, 0.3);margin-bottom:4px;margin-left: auto !important;margin-right: auto !important;display:block;box-sizing:border-box;"></span> <small style="color:rgb(155, 158, 190);display:block;font-size:11px;box-sizing:border-box;background-color:rgb(225, 229, 245);border-radius:3px;font-weight:100;left:62.5312px;line-height:13px;padding:1px;position:absolute;top:17px;transform:matrix(1, 0, 0, 1, -11.5521, 0); margin-left: 4px; margin-top: 3px;"> 1.91:1 </small>
+                landscape
+            </button><button data-width="1920" data-height="1080" class="size-button" id="fullHDButton" fdprocessedid="c92k7s" style="outline:rgb(85, 70, 232) none 0px;background-color:rgb(220, 224, 243);border-color:rgba(0, 0, 0, 0);box-shadow:rgba(27, 22, 66, 0.03) 0px 0px 6px 0px, rgba(27, 22, 66, 0.06) 0px 14px 24px 0px;color:rgb(85, 70, 232);border-radius:8px;text-transform:capitalize;font-size:14px;padding:8px;border:0.666667px solid rgba(0, 0, 0, 0);cursor:pointer;display:block;font-weight:500;line-height:22.4px;text-align:center;transition:color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;user-select:none;vertical-align:middle;white-space:nowrap;appearance:button;font-family:'DM Sans', sans-serif;margin:0px;box-sizing:border-box;flex:1 0 0%;position:relative;  padding: 12px 38px;"><span style="width: 16.875px; height: 30px; border: 1px solid rgba(85, 70, 232, 0.3);height:30px;border:0.666667px solid rgba(85, 70, 232, 0.3);margin-bottom:4px;margin-left: auto !important;margin-right: auto !important;display:block;box-sizing:border-box; width: 19px;"></span> <small style="color:rgb(155, 158, 190);display:block;font-size:11px;box-sizing:border-box;background-color:rgb(225, 229, 245);border-radius:3px;font-weight:100;left:62.5312px;line-height:13px;padding:1px;position:absolute;top:17px;transform:matrix(1, 0, 0, 1, -10.75, 0); margin-left: 7px; margin-top: 3px;"> 9:16 </small>
+                story
+            </button></div>
+              <br> <h3 style="font-size: 20px;" class="layoutH">Layout</h3>
+            <!-- Fit Button -->
+           
+            <div class="layportion">
+                <label style=" padding: 13px 52px;
+                border-radius: 5px;
+                padding-right: 10px;
+
+                background-color: #000000;
+                /* border: 2px solid #000000; */
+                color: #333;" >
+                       <span  style="color: white;  margin-left: -48px;">  <i style="margin-left: 27px;" class="fas fa-expand-arrows-alt"></i> &nbsp; &nbsp; &nbsp;Fill</span>  <span > <input style="margin-left: 22px; " type="radio" name="layout" value="fit" id="fitLayout" checked></span>
+                   
+                    <!-- <input type="radio" name="layout" value="fit" id="fitLayout" checked><img style="width: 172px; cursor: pointer; margin-left: -33px; height: 10vh;" src="./fit button.png" alt="" id="fitImage"> -->
+                </label>
+                <!-- <img style="width: 202px; height: 9vh; border-top-right-radius: 333px;" src="./fillll.png" alt="" id="fillImage"> -->
+                <label style="margin-left: 7px;   padding: 13px 52px;
+                padding-right: 10px;
+                border-radius: 5px;
+                background-color: #ddd;
+                /* border: 2px solid #000000; */
+                color: #333;">      <span style="margin-left: -48px;"><i style="margin-left: 27px;" class="fas fa-expand"></i>&nbsp;&nbsp;&nbsp;fit&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 33px;"><input type="radio" name="layout" value="fill" id="fillLayout"></span>
+                    
+                </label>
+                <!-- <label><input type="radio" name="layout" value="fill" id="fillLayout"><img style="width: 202px; cursor: pointer; height: 9vh; margin-left: -18px; border-top-right-radius: 333px;" src="./fillll.png" alt="" id="fillImage"></label> -->
+    
+                <!-- <img style="width: 172px; height: 10vh;" src="./fit button.png" alt="" id="fitImage"> -->
+                <!-- <img style="width: 202px; height: 9vh; border-top-right-radius: 333px;" src="./fillll.png" alt="" id="fillImage"> -->
+            </div>
+            <br>
+            <h3 style="font-size: 20px;"  class="bgColH">Background Color</h3>
+            <div style="margin-top: -12px;" class="bgcoloee">
+                <label  style="width: 13px;"><input type="radio" name="background" value="white" id="whiteBackground" checked> 
+                <button class="whiB" style=" border-radius: 17%; margin-left: -3px; background-color: white; border: 1px solid rgb(134, 134, 134); height: 43px; width: 50px; "></button>
+                </label>
+                <label><input type="radio" name="background" value="black" id="blackBackground">
+                    <button class="blaB" style="border-radius: 17%; margin-left:-2px; background-color: rgb(0, 0, 0); border: 0.4px solid rgb(5, 5, 5); height: 43.3px; width: 52px; "></button>
+                
+                </label>
+                <label><input style="display: none;" type="radio" name="background" value="transparent" id="transparentBackground"></label>
+            </div>
+    <button style="margin-top: 15px; padding: 14px 35px;" id="downloadBtn" class="btn-15"><span>Downlaod</span></button>
+            
+            <!-- <button style="padding: 12px 28px; margin-top: 14px;" >Download</button> -->
+             <br><br><br>
+        </div>
+    </div>
+    <br><br>
+    
+    <script>
+     document.addEventListener('DOMContentLoaded', () => {
+    const uploadSection = document.getElementById('uploadSection');
+    const uploadInput = document.getElementById('uploadInput');
+    const uploadedImage = document.getElementById('uploadedImage');
+    const widthInput = document.getElementById('widthInput');
+    const heightInput = document.getElementById('heightInput');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const uploadText = document.getElementById('uploadText');
+    let currentImage;
+
+    // Handle file upload
+    uploadSection.addEventListener('click', () => {
+        uploadInput.click();
+    });
+
+    uploadInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImage.src = e.target.result;
+                uploadedImage.style.display = 'block';
+                currentImage = new Image();
+                uploadText.style.display = 'none'; // Hide upload text
+                currentImage.src = e.target.result;
+                
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    function previewImage(event) {
+        const uploadText = document.getElementById('uploadText');
+        const uploadedImage = document.getElementById('uploadedImage');
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedImage.src = e.target.result;
+                uploadedImage.style.display = 'block';
+                uploadText.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    
+    // Handle size buttons
+    document.querySelectorAll('.size-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const width = button.getAttribute('data-width');
+            const height = button.getAttribute('data-height');
+            widthInput.value = width;
+            heightInput.value = height;
+        });
+    });
+
+    // Handle layout radio buttons
+    document.querySelectorAll('input[name="layout"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.querySelectorAll('img[id$="Image"]').forEach(img => img.classList.remove('active'));
+            const layout = document.querySelector('input[name="layout"]:checked').value;
+            if (layout === 'fit') {
+                document.getElementById('fitImage').classList.add('active');
+            } else {
+                document.getElementById('fillImage').classList.add('active');
+            }
+        });
+    });
+
+    // Handle background color radio buttons
+    document.querySelectorAll('input[name="background"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.querySelectorAll('label').forEach(label => label.classList.remove('active'));
+            document.querySelector(`input[name="background"]:checked`).parentElement.classList.add('active');
+        });
+    });
+
+    // Handle download button
+    downloadBtn.addEventListener('click', () => {
+        if (currentImage) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const width = parseInt(widthInput.value) || currentImage.width;
+            const height = parseInt(heightInput.value) || currentImage.height;
+            const layout = document.querySelector('input[name="layout"]:checked').value;
+            const backgroundColor = document.querySelector('input[name="background"]:checked').value;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            // Apply background color
+            if (backgroundColor === 'white') {
+                ctx.fillStyle = '#ffffff';
+            } else if (backgroundColor === 'black') {
+                ctx.fillStyle = '#000000';
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Transparent
+            }
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the image with the selected layout
+            if (layout === 'fit') {
+                const scaleFactor = Math.min(canvas.width / currentImage.width, canvas.height / currentImage.height);
+                const x = (canvas.width - currentImage.width * scaleFactor) / 2;
+                const y = (canvas.height - currentImage.height * scaleFactor) / 2;
+                ctx.drawImage(currentImage, x, y, currentImage.width * scaleFactor, currentImage.height * scaleFactor);
+            } else {
+                ctx.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
+            }
+
+            // Trigger download
+            const link = document.createElement('a');
+            link.download = 'resized-image.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            location.reload();
+        }
+    });
+});
+
+    </script>
+</body>
+</html> 
+
